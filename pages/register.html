@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-light: #F4F6FF;
+            --yellow-accent: #F3C623;
+            --orange-main: #EB8317;
+            --navy-deep: #10375C;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(243, 198, 35, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(16, 55, 92, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .coin-bg {
+            position: fixed;
+            bottom: 0px; 
+            right: 0px;
+            width: 200px;
+            height: 200px;
+            background: url("../assets/images/gold.png") no-repeat center/contain; 
+       
+            pointer-events: none;
+         
+            filter: drop-shadow(0 0 25px rgba(243, 198, 35, 0.3));
+            animation: floating3D 8s ease-in-out infinite;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            z-index: 10000;
+        }
+
+        @keyframes floating3D {
+            0% {
+                transform: translateY(0px) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-60px) rotateY(180deg);
+            }
+            100% {
+                transform: translateY(0px) rotateY(360deg);
+            }
+        }
+
+        .main-section {
+            position: relative;
+            z-index: 10; 
+            min-height: 100vh;
+            padding: 3rem 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card {
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 20px 45px rgba(16, 55, 92, 0.1);
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(10px);
+        }
+
+        .text-navy { color: var(--navy-deep) !important; }
+        .text-orange { color: var(--orange-main) !important; }
+
+        .form-outline .form-control:focus ~ .form-label {
+            color: var(--orange-main) !important;
+        }
+        
+        .gender-select {
+            border: none;
+            border-bottom: 1px solid #bdbdbd;
+            padding: 0.6rem 0.5rem;
+            background-color: transparent;
+            color: var(--navy-deep);
+            appearance: none; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23EB8317'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .btn-register {
+            background: linear-gradient(to right, var(--yellow-accent), var(--orange-main));
+            color: var(--navy-deep);
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .form-outline i {
+            color: var(--orange-main) !important;
+        }
+
+        @media (max-width: 576px) {
+            .coin-bg { 
+                width: 250px; 
+                height: 250px; 
+                top: calc(50% - 125px);
+                left: calc(50% - 125px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="coin-bg"></div>
+
+<section class="main-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-5">
+          <div class="card-body p-4 p-md-5">
+            <h2 class="text-center mb-5 text-navy fw-bold text-uppercase">Create Account</h2>
+            <form>
+              <div class="form-outline mb-4" data-mdb-input-init>
+                <i class="fas fa-user trailing"></i>
+                <input type="text" id="regName" class="form-control form-control-lg" required />
+                <label class="form-label" for="regName">Full Name</label>
+              </div>
+              <div class="form-outline mb-4" data-mdb-input-init>
+                <i class="fas fa-phone trailing"></i>
+                <input type="tel" id="regPhone" class="form-control form-control-lg" placeholder="+962" required />
+                <label class="form-label" for="regPhone">Phone Number</label>
+              </div>
+              <div class="form-outline mb-4" data-mdb-input-init>
+                <i class="fas fa-envelope trailing"></i>
+                <input type="email" id="regEmail" class="form-control form-control-lg" required />
+                <label class="form-label" for="regEmail">Email Address</label>
+              </div>
+              <div class="mb-4">
+                <label class="form-label text-muted small ms-1" for="regGender">Gender</label>
+                <select class="form-select gender-select" id="regGender">
+                  <option value="" selected disabled>Choose your gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-register btn-block btn-lg text-uppercase">Register Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+</body>
+</html>
