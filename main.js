@@ -222,3 +222,27 @@ function toggleCurrency(currency) {
 // Start
 getGoldPrice();
 setInterval(getGoldPrice, 5000);
+//check if login in manage my assets
+const button = document.getElementById("myButton");
+
+button.addEventListener("click", function (e) {
+  if (!isLogin()) {
+    e.preventDefault();
+     Swal.fire({
+      title: "Access Denied",
+      text: " You shoud Login first  🔒",
+      icon: "error",
+      timer: 2000,
+      showConfirmButton: false,
+      willClose: () => {
+        window.location.href = "pages/login.html";
+      },
+    });
+  } 
+});
+
+const myAssets = document.getElementById("assets");
+
+if(!isLogin()){
+    myAssets.style.display="none"
+}

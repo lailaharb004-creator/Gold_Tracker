@@ -1,13 +1,15 @@
 function isLogin(){
         let isActive = sessionStorage.getItem("isActive");
-        if(isActive){
-          console.log("Active")
+        if(isActive==="true"){
+          console.log("Active");
+          return true;
         }else{
-          // window.location.href="login.html"
-          console.log("not Active")
+         
+          console.log("not Active");
+          return false;
         }
       }
           function logOut(){
-       sessionStorage.clear("isActive");
+       sessionStorage.removeItem("isActive");
        window.location.href="./index.html"
       }
