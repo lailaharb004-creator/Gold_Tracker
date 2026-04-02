@@ -4,16 +4,25 @@
   --orange-main: #eb8317;
   --navy-deep: #10375c;
 
-  --text-dark: #1e2a3a;       
-  --text-light: #f8fafc;      
-  --gold-light: rgba(243, 198, 35, 0.1); 
+  --text-dark: #1e2a3a;
+  --text-light: #f8fafc;
+  --gold-light: rgba(243, 198, 35, 0.1);
   --border-light: rgba(0, 0, 0, 0.05);
+
+  /* Profit / Loss indicator colors */
+  --color-up:      #22c55e;   /* green  */
+  --color-up-bg:   rgba(34, 197, 94, 0.12);
+  --color-down:    #ef4444;   /* red    */
+  --color-down-bg: rgba(239, 68, 68, 0.12);
+  --color-neutral: #94a3b8;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ── Reset ─────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -22,237 +31,202 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
 }
-.btn-register {
-        background: linear-gradient(
-          to right,
-          var(--yellow-accent),
-          var(--orange-main)
-        );
-        color: var(--navy-deep);
-        font-weight: 800;
-        border-radius: 12px;
-        padding: 14px;
-        transition: 0.3s;
-      }
-      .btn-register:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
-      .btn-outline-primary{
-        outline: none !important; 
 
-      }
-.btn-outline-primary:hover{
-   background: linear-gradient(
-          to right,
-          var(--yellow-accent),
-          var(--orange-main)
-        );
-        color: var(--navy-deep);
-        
-      
-       
-}
-.navbar-brand:hover{
-  color: var(--yellow-accent) !important;
-}
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.section    { padding: 2.5rem 0; }
 
-.section {
-  padding: 2.5rem 0;
-}
-
+/* ── Navbar ─────────────────────────────────────── */
 .navbar {
   background-color: var(--bg-light);
   border-bottom: 1px solid var(--border-light);
   padding: 0.75rem 1rem;
 }
+.navbar .navbar-brand { color: var(--navy-deep); font-weight: bold; font-size: 1.5rem; }
+.navbar .nav-link     { color: var(--navy-deep); font-weight: 500; transition: color 0.3s; }
+.navbar .nav-link:hover,
+.navbar .nav-link.active { color: var(--orange-main); }
 
-.navbar .navbar-brand {
-  color: var(--navy-deep);
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.navbar .nav-link {
-  color: var(--navy-deep);
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.navbar .nav-link:hover {
-  color: var(--orange-main) !important;
-}
-
+/* ── Buttons ─────────────────────────────────────── */
 .btn {
   display: inline-block;
   padding: 0.5rem 1.25rem;
   border-radius: 2rem;
   font-weight: 500;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   cursor: pointer;
   border: none;
   font-size: 0.9rem;
 }
+.btn-gold             { background-color: var(--yellow-accent); color: var(--navy-deep); }
+.btn-gold:hover       { background-color: var(--orange-main); color: var(--text-light); transform: translateY(-2px); }
+.btn-outline-gold     { background-color: transparent; color: var(--yellow-accent); border: 2px solid var(--yellow-accent); }
+.btn-outline-gold:hover { background-color: var(--yellow-accent); color: var(--navy-deep); transform: translateY(-2px); }
 
-.btn-gold {
-  background-color: var(--yellow-accent);
-  color: var(--navy-deep);
-}
-
-.btn-gold:hover {
-  background-color: var(--orange-main);
-  color: var(--text-light);
-  transform: translateY(-2px);
-}
-
-.btn-outline-gold {
-  background-color: transparent;
-  color: var(--yellow-accent);
-  border: 2px solid var(--yellow-accent);
-}
-
-.btn-outline-gold:hover {
-  background-color: var(--yellow-accent);
-  color: var(--navy-deep);
-  transform: translateY(-2px);
-}
-
+/* ── Ticker ─────────────────────────────────────── */
 .ticker-bar {
   background-color: var(--navy-deep);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   overflow: hidden;
   white-space: nowrap;
 }
-
 .ticker-content {
   display: inline-flex;
   animation: tickerMove 25s linear infinite;
   padding: 0.75rem 0;
 }
-
-.ticker-item {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  margin-right: 3rem;
-}
-
-.ticker-label {
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 400;
-}
-
-.ticker-value {
-  color: var(--yellow-accent);
-  font-weight: 600;
-  font-size: 1rem;
-}
-.ticker-sep{
-  color: var(--yellow-accent);
-}
-.ticker-content:hover {
-  animation-play-state: paused;
-}
+.ticker-item   { display: flex; gap: 2rem; align-items: center; margin-right: 3rem; }
+.ticker-label  { color: white; font-size: 0.85rem; font-weight: 400; }
+.ticker-value  { color: var(--yellow-accent); font-weight: 600; font-size: 1rem; }
+.ticker-content:hover { animation-play-state: paused; }
 
 @keyframes tickerMove {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); }
 }
 
+/* ── Hero ─────────────────────────────────────── */
 .hero {
   padding: 4rem 0 3rem;
   text-align: center;
   position: relative;
 }
-
 .hero::before {
   content: '';
   position: absolute;
-  top: -100px;
-  left: 50%;
+  top: -100px; left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
+  width: 600px; height: 600px;
   background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
   pointer-events: none;
   z-index: -1;
 }
-
 .hero-subtitle {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--yellow-accent);
-  margin-bottom: 1rem;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--yellow-accent); margin-bottom: 1rem;
 }
-
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--text-dark);
-  margin-bottom: 1.25rem;
+  font-weight: 700; line-height: 1.15;
+  color: var(--text-dark); margin-bottom: 1.25rem;
 }
+.hero-title span { color: var(--yellow-accent); }
+.hero-desc { font-size: 1rem; color: #4a5568; max-width: 480px; margin: 0 auto 2rem; }
 
-.hero-title span {
-  color: var(--yellow-accent);
-}
-
-.hero-desc {
-  font-size: 1rem;
-  color: #4a5568;   
-  max-width: 480px;
-  margin: 0 auto 2rem;
-}
-
+/* ── Price cards hover ───────────────────────── */
 .hover-scale {
   transition: transform 0.2s, background-color 0.2s;
   border-radius: 1rem;
   padding: 1rem;
 }
-
 .hover-scale:hover {
   transform: translateY(-4px);
   background-color: var(--gold-light);
   cursor: pointer;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-.card{
-  background-color: var(--text-dark) !important;
- 
-}
-a {
-  text-decoration: none;
-  color: var(--text-dark) !important;
-}
-.price-item{
-  box-shadow:  0px 0px 10px var(--yellow-accent);
- 
- 
+/* ── Profit / Loss Indicators ────────────────── */
+
+/* Pill badge shown below the price value */
+.price-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-top: 5px;
+  transition: background 0.3s, color 0.3s;
 }
 
-.price-item i {
-  font-size: 1.5rem;
- 
-
-  margin-bottom: 5px;
-  display: block;
+.price-change.up {
+  color: var(--color-up);
+  background-color: var(--color-up-bg);
+  border: 1px solid rgba(34, 197, 94, 0.3);
 }
-.hover-scale:hover i {
-  transform: scale(1.2);
-  transition: 0.3s;
 
+.price-change.down {
+  color: var(--color-down);
+  background-color: var(--color-down-bg);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.price-change.neutral {
+  color: var(--color-neutral);
+  background-color: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Ticker bar inline change badge */
+.ticker-change .price-change {
+  font-size: 0.72rem;
+  padding: 1px 7px;
+  margin-top: 0;
+}
+
+/* Flash animation when price updates */
+@keyframes priceFlash {
+  0%   { opacity: 1; }
+  20%  { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+.price-flash {
+  animation: priceFlash 0.45s ease-out;
+}
+
+/* ── Misc ─────────────────────────────────────── */
+img { max-width: 100%; height: auto; }
+a   { text-decoration: none; }
+
+/* Chart container — respects screen edges on mobile */
+.chart-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Price numbers shouldn't overflow their card on very small screens */
+#ounce-price, #gram-24k, #gram-21k, #gram-18k,
+#rashadi-price, #english-price {
+  font-size: clamp(1rem, 4vw, 1.75rem);
+  word-break: break-all;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.chart-title         { font-family: var(--font-display); font-size: 1.1rem; color: var(--text-primary); }
+.chart-currency-label { color: var(--gold); font-size: 0.9rem; }
+.chart-filters       { display: flex; gap: 6px; }
+.chart-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.78rem; font-weight: 600;
+  padding: 4px 14px; border-radius: 5px;
+  cursor: pointer; transition: all 0.2s;
+}
+.chart-btn.active,
+.chart-btn:hover {
+  background: var(--gold-glow);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.chart-wrapper { position: relative; height: 260px; }
+i{
+  font-size: 40px;
 }
