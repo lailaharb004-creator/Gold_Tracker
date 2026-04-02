@@ -12,60 +12,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
-    <link href="../assets/icons/lock.ico" rel="icon">
+    <link href="../assets/icons/lock.ico" rel="icon" />
+   
+    <link rel="stylesheet" href="../main.css">
+   
     <style>
-      :root {
-        --bg-light: #f4f6ff;
-        --yellow-accent: #f3c623;
-        --orange-main: #eb8317;
-        --navy-deep: #10375c;
-      }
-
-      body {
+      /* *{
+        box-sizing: border-box;
+        padding: 0;
         margin: 0;
-        min-height: 100vh;
-        font-family: "Segoe UI", sans-serif;
-        background: radial-gradient(
-          circle at center,
-          #164069 0%,
-          var(--navy-deep) 70%,
-          #051626 100%
-        );
-        background-attachment: fixed;
-        overflow-x: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      body::before {
-        content: "";
-  position: fixed;
-  top: 50%;
-  right: 10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(243, 198, 35, 0.15);
-  filter: blur(100px);
-  border-radius: 50%;
-  z-index: -1;
-      }
-body::after {
-  content: "";
-  position: fixed;
-  top: 20%;
-  left: 10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(243, 198, 35, 0.15);
-  filter: blur(100px);
-  border-radius: 50%;
-  z-index: -1;
-}
-     
-
-
-
+      } */
       .main-section {
         position: relative;
         z-index: 10;
@@ -81,23 +37,23 @@ body::after {
         margin: 0 15px;
         filter: drop-shadow(0 0 25px rgba(243, 198, 35, 0.3));
         border: 1px solid rgba(243, 198, 35, 0.3);
-  box-shadow: 0 10px 40px rgba(243, 198, 35, 0.15);
+        box-shadow: 0 10px 40px rgba(243, 198, 35, 0.15);
       }
-.card:hover {
-  transform: translateY(-5px);
-  transition: 0.3s;
-}
+      .card:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+      }
       .text-navy {
         color: var(--navy-deep) !important;
       }
-      
+
       .text-orange {
         color: var(--orange-main) !important;
       }
-h2 {
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(243, 198, 35, 0.3);
-}
+      h2 {
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(243, 198, 35, 0.3);
+      }
       .form-outline .form-control:focus ~ .form-label {
         color: var(--orange-main) !important;
       }
@@ -117,22 +73,7 @@ h2 {
         width: 100%;
       }
 
-      .btn-register {
-        background: linear-gradient(
-          to right,
-          var(--yellow-accent),
-          var(--orange-main)
-        );
-        color: var(--navy-deep);
-        font-weight: 800;
-        border-radius: 12px;
-        padding: 14px;
-        transition: 0.3s;
-      }
-       .btn-register:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
+     
       .error-msg {
         font-size: 0.75rem;
         min-height: 18px;
@@ -141,7 +82,6 @@ h2 {
         padding-left: 5px;
         color: #d32f2f;
       }
-     
 
       .form-outline i {
         color: var(--orange-main) !important;
@@ -151,28 +91,25 @@ h2 {
         .card-body {
           padding: 2rem !important;
         }
-      
       }
 
       @media (max-width: 576px) {
         h2 {
           font-size: 1.5rem;
         }
-       
+
         .main-section {
           padding: 1rem 0;
         }
         .card {
-  border-radius: 15px;
-}
+          border-radius: 15px;
+        }
       }
-     
-
-
     </style>
+
   </head>
   <body>
-   
+    
     <section class="main-section">
       <div class="container">
         <div class="row justify-content-center">
@@ -184,7 +121,7 @@ h2 {
                 >
                   Create Account
                 </h2>
-   
+
                 <form id="form">
                   <div class="form-outline mb-2" data-mdb-input-init>
                     <i class="fas fa-user trailing"></i>
@@ -284,128 +221,8 @@ h2 {
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
-    <script>
-      //get html element
-      let form = document.getElementById("form");
-      let inputName = document.getElementById("regName");
-      let inputEmail = document.getElementById("regEmail");
-      let inputPhone = document.getElementById("regPhone");
-      let inputGender = document.getElementById("regGender");
-      let inputPassword = document.getElementById("regPassword");
-      let inputConfirmPassword = document.getElementById("regConfirm");
-      let nameError = document.getElementById("nameError");
-      let emailError = document.getElementById("emailError");
-      let passwordError = document.getElementById("passwordError");
-      let confirmPasswordError = document.getElementById("ConfirmError");
-      let phoneError = document.getElementById("phoneError");
-      let genderError = document.getElementById("genderError");
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        nameError.textContent = "";
-        emailError.textContent = "";
-        passwordError.textContent = "";
-        confirmPasswordError.textContent = "";
-        passwordError.textContent = "";
-        phoneError.textContent = "";
-        genderError.textContent = "";
-        let users = JSON.parse(localStorage.getItem("users")) || [];
-
-        let newId = users.length + 1;
-        let user = {
-          id: newId,
-          name: inputName.value,
-          email: inputEmail.value,
-          phone: inputPhone.value,
-          password: inputPassword.value,
-          gender: inputGender.value,
-        };
-
-        let valid = true;
-
-        const nameRegex = /^[a-zA-Z\s]+$/;
-        if (inputName.value.trim() === "") {
-          nameError.textContent = "Full name is required";
-          valid = false;
-        } else if (!nameRegex.test(inputName.value)) {
-          nameError.textContent = "Letters Only";
-          valid = false;
-        }
-
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (inputEmail.value.trim() === "") {
-          emailError.textContent = "Email is required";
-          valid = false;
-        } 
-        else if (!emailPattern.test(inputEmail.value)) {
-          emailError.textContent = "Not Valid Email";
-          valid = false;
-        }else{
-                  let existEmail = users.find(x => x.email === inputEmail.value.trim());
-
-          if(existEmail){
-          emailError.textContent="Email is already exsits";
-          valid=false;
-        }
-        } 
-        const phonePattern = /^((\+962)|0)7[789]\d{7}$/;
-        if (inputPhone.value.trim() == "") {
-          phoneError.textContent = "Phone is required";
-          valid = false;
-        } else if (!phonePattern.test(inputPhone.value)) {
-          phoneError.textContent =
-            "Invalid Jordanian number (e.g., 0791234567)";
-          valid = false;
-        }
-        if (inputPassword.value.trim() === "") {
-          passwordError.textContent = "Password is requierd";
-          valid = false;
-        } else if (
-          inputPassword.value.trim().length < 8 ||
-          inputPassword.value.trim().length > 32
-        ) {
-          passwordError.textContent =
-            "Length must be between 8 and 32 characters.";
-          valid = false;
-        } else if (!inputPassword.value.match(/^[A-Z]/)) {
-          passwordError.textContent = "Must start with a capital letter.";
-          valid = false;
-        } else if ((inputPassword.value.match(/\d/g) || []).length < 2) {
-          passwordError.textContent = "Must contain at least 2 numbers.";
-          valid = false;
-        } else if (!inputPassword.value.match(/[^a-z0-9]/i)) {
-          passwordError.textContent =
-            "Must contain at least 1 special character.";
-          valid = false;
-        }
-        if (inputPassword.value !== inputConfirmPassword.value) {
-          confirmPasswordError.textContent = "Passwords do not match";
-          valid = false;
-        }
-        if (inputGender.value == "") {
-          genderError.textContent = "Gender is required";
-          valid=false;
-        }
-        if (valid) {
-
-          users.push(user);
-
-          localStorage.setItem("users", JSON.stringify(users));
-
-          Swal.fire({
-            title: "Success!",
-            text: "Account created! Go to login...",
-            icon: "success",
-            timer: 2000, // 
-            showConfirmButton: false,
-            willClose: () => {
-              window.location.href = "login.html";
-            },
-          });
-          form.reset();
-        }
-      });
-    </script>
+    <script src="../javascript/register.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

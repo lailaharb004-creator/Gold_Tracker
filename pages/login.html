@@ -12,60 +12,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
-    <link href="../assets/icons/unlock_icon_129431.ico" rel="icon">
+    <link href="../assets/icons/unlock_icon_129431.ico" rel="icon" />
+    <link rel="stylesheet" href="../main.css" />
+
     <style>
-      :root {
-        --bg-light: #f4f6ff;
-        --yellow-accent: #f3c623;
-        --orange-main: #eb8317;
-        --navy-deep: #10375c;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Segoe UI", sans-serif;
-        background: radial-gradient(
-          circle at center,
-          #164069 0%,
-          var(--navy-deep) 70%,
-          #051626 100%
-        );
-        background-attachment: fixed;
-        overflow-x: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      body::before {
-        content: "";
-  position: fixed;
-  top: 50%;
-  right: 10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(243, 198, 35, 0.15);
-  filter: blur(100px);
-  border-radius: 50%;
-  z-index: -1;
-      }
-body::after {
-  content: "";
-  position: fixed;
-  top: 20%;
-  left: 10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(243, 198, 35, 0.15);
-  filter: blur(100px);
-  border-radius: 50%;
-  z-index: -1;
-}
-     
-
-
-
       .main-section {
         position: relative;
         z-index: 10;
@@ -81,23 +31,23 @@ body::after {
         margin: 0 15px;
         filter: drop-shadow(0 0 25px rgba(243, 198, 35, 0.3));
         border: 1px solid rgba(243, 198, 35, 0.3);
-  box-shadow: 0 10px 40px rgba(243, 198, 35, 0.15);
+        box-shadow: 0 10px 40px rgba(243, 198, 35, 0.15);
       }
-.card:hover {
-  transform: translateY(-5px);
-  transition: 0.3s;
-}
+      .card:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+      }
       .text-navy {
         color: var(--navy-deep) !important;
       }
-      
+
       .text-orange {
         color: var(--orange-main) !important;
       }
-h2 {
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(243, 198, 35, 0.3);
-}
+      h2 {
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(243, 198, 35, 0.3);
+      }
       .form-outline .form-control:focus ~ .form-label {
         color: var(--orange-main) !important;
       }
@@ -117,22 +67,6 @@ h2 {
         width: 100%;
       }
 
-      .btn-register {
-        background: linear-gradient(
-          to right,
-          var(--yellow-accent),
-          var(--orange-main)
-        );
-        color: var(--navy-deep);
-        font-weight: 800;
-        border-radius: 12px;
-        padding: 14px;
-        transition: 0.3s;
-      }
-       .btn-register:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
       .error-msg {
         font-size: 0.75rem;
         min-height: 18px;
@@ -141,7 +75,6 @@ h2 {
         padding-left: 5px;
         color: #d32f2f;
       }
-     
 
       .form-outline i {
         color: var(--orange-main) !important;
@@ -151,28 +84,23 @@ h2 {
         .card-body {
           padding: 2rem !important;
         }
-      
       }
 
       @media (max-width: 576px) {
         h2 {
           font-size: 1.5rem;
         }
-       
+
         .main-section {
           padding: 1rem 0;
         }
         .card {
-  border-radius: 15px;
-}
+          border-radius: 15px;
+        }
       }
-     
-
-
     </style>
   </head>
   <body>
-   
     <section class="main-section">
       <div class="container">
         <div class="row justify-content-center">
@@ -184,10 +112,8 @@ h2 {
                 >
                   Login
                 </h2>
-   
-                <form id="form">
-               
 
+                <form id="form">
                   <div class="form-outline mb-2" data-mdb-input-init>
                     <i class="fas fa-envelope trailing"></i>
                     <input
@@ -210,7 +136,6 @@ h2 {
                     <label class="form-label" for="regPassword">Password</label>
                   </div>
                   <div id="passwordError" class="text-danger small mb-1"></div>
-                
 
                   <button
                     type="submit"
@@ -235,61 +160,7 @@ h2 {
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
-    <script>
-      //get html element
-      let form = document.getElementById("form");
-      let inputEmail = document.getElementById("regEmail");
-      let inputPassword = document.getElementById("regPassword");
-      let emailError = document.getElementById("emailError");
-      let passwordError = document.getElementById("passwordError");
-     
-
-      form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  
- 
-  emailError.textContent = "";
-  passwordError.textContent = "";
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  let emailValue = inputEmail.value.trim();
-  let passValue = inputPassword.value;
- let valid = true;
-  if (emailValue === "") {
-    emailError.textContent = "Email is required";
-    valid=false;
-  }
-  if (passValue === "") {
-    passwordError.textContent = "Password is required";
-    valid=false;
-  }
-
-  let userFound = users.find(u => u.email === emailValue && u.password === passValue);
-   if(userFound.password !== passValue){
-    passwordError.textContent="Inavalid user name"
-   }
-  if (userFound) {
-    Swal.fire({
-      title: "Welcome Back!",
-      text: `Hello, ${userFound.name}!`,
-      icon: "success",
-      timer: 2000,
-      showConfirmButton: false,
-      willClose: () => {
-        window.location.href = "dashboard.html"; 
-      },
-    });
-  }
-  
-//    else {
-//     Swal.fire({
-//       title: "Error!",
-//       text: "Invalid email or password",
-//       icon: "error",
-//     });
-//   }
-});
-    </script>
+    <script src="../javascript/login.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
