@@ -22,7 +22,40 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
 }
+.btn-register {
+        background: linear-gradient(
+          to right,
+          var(--yellow-accent),
+          var(--orange-main)
+        );
+        color: var(--navy-deep);
+        font-weight: 800;
+        border-radius: 12px;
+        padding: 14px;
+        transition: 0.3s;
+      }
+      .btn-register:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+      .btn-outline-primary{
+        outline: none !important; 
 
+      }
+.btn-outline-primary:hover{
+   background: linear-gradient(
+          to right,
+          var(--yellow-accent),
+          var(--orange-main)
+        );
+        color: var(--navy-deep);
+        
+      
+       
+}
+.navbar-brand:hover{
+  color: var(--yellow-accent) !important;
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -51,9 +84,8 @@ body {
   transition: color 0.3s ease;
 }
 
-.navbar .nav-link:hover,
-.navbar .nav-link.active {
-  color: var(--orange-main);
+.navbar .nav-link:hover {
+  color: var(--orange-main) !important;
 }
 
 .btn {
@@ -122,7 +154,9 @@ body {
   font-weight: 600;
   font-size: 1rem;
 }
-
+.ticker-sep{
+  color: var(--yellow-accent);
+}
 .ticker-content:hover {
   animation-play-state: paused;
 }
@@ -199,4 +233,5 @@ img {
 
 a {
   text-decoration: none;
+  color: var(--text-dark) !important;
 }
