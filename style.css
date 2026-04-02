@@ -230,8 +230,29 @@ img {
   max-width: 100%;
   height: auto;
 }
-
+.card{
+  background-color: var(--text-dark) !important;
+ 
+}
 a {
   text-decoration: none;
   color: var(--text-dark) !important;
+}
+.price-item{
+  box-shadow:  0px 0px 10px var(--yellow-accent);
+ 
+ 
+}
+
+.price-item i {
+  font-size: 1.5rem;
+ 
+
+  margin-bottom: 5px;
+  display: block;
+}
+.hover-scale:hover i {
+  transform: scale(1.2);
+  transition: 0.3s;
+
 }
