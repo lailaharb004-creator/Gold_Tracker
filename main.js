@@ -1,34 +1,87 @@
-// main.js
-
 let labels = [];
 let prices = [];
 let currentCurrency = 'USD';
-let previousValues = null; // Store previous fetch values for comparison
+let previousValues = null;
 
 const ctx = document.getElementById('goldChart').getContext('2d');
+
 const goldChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: labels,
         datasets: [{
-            label: 'Gold Price (USD)',
+            label: 'Gold Price',
             data: prices,
-            borderWidth: 3,
-            borderColor: 'gold',
-            backgroundColor: 'rgba(255,215,0,0.15)',
+            borderColor: '#f3c623',
+            borderWidth: 2,
+            backgroundColor: (context) => {
+                const chart = context.chart;
+                const { ctx: c, chartArea } = chart;
+                if (!chartArea) return 'transparent';
+                const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                gradient.addColorStop(0, 'rgba(243,198,35,0.18)');
+                gradient.addColorStop(1, 'rgba(243,198,35,0)');
+                return gradient;
+            },
+            fill: true,
             tension: 0.4,
-            pointRadius: 3,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#f3c623',
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 2,
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: true,
         aspectRatio: 2.5,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
         plugins: {
-            legend: { display: false }
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: '#10375c',
+                titleColor: 'rgba(255,255,255,0.6)',
+                bodyColor: '#f3c623',
+                bodyFont: { weight: '600', size: 14 },
+                titleFont: { size: 12 },
+                padding: 10,
+                borderColor: 'rgba(243,198,35,0.3)',
+                borderWidth: 1,
+                displayColors: false,
+                callbacks: {
+                    label: (item) => `$${item.parsed.y.toLocaleString()}`,
+                }
+            }
         },
         scales: {
-            y: { beginAtZero: false }
+            x: {
+                grid: { display: false },
+                border: { display: false },
+                ticks: {
+                    color: '#94a3b8',
+                    font: { size: 11, family: 'Inter, sans-serif' },
+                    maxTicksLimit: 6,
+                }
+            },
+            y: {
+                beginAtZero: false,
+                position: 'right',
+                grid: {
+                    color: 'rgba(0,0,0,0.05)',
+                    drawBorder: false,
+                },
+                border: { display: false, dash: [4, 4] },
+                ticks: {
+                    color: '#94a3b8',
+                    font: { size: 11, family: 'Inter, sans-serif' },
+                    maxTicksLimit: 5,
+                    callback: (val) => `$${val.toLocaleString()}`,
+                }
+            }
         }
     }
 });
