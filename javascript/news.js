@@ -1,42 +1,36 @@
-// let url = "https://gnews.io/api/v4/search?q=XAU&apikey=27cce719ffb889b71fa73a0217674462";
+ let url = "https://gnews.io/api/v4/search?q=XAU&apikey=27cce719ffb889b71fa73a0217674462";
 
-// async function fetchNews() {
-//     try {
-//         const response = await fetch(url);
-//         const data = await response.json();
+const newsContainer = document.getElementById("news-container");
 
-//         if (data.articles) {
-//             displayNews(data.articles);
-//         }
-//     } catch (error) {
-//         console.error("خطأ في جلب الأخبار:", error);
-//     }
-// }
-
-// function displayNews(articles) {
-//     const newsContainer = document.getElementById('news-container'); 
-//     if (!newsContainer) return;
-
-//     const html = articles.slice(0, 3).map(article => `
-//         <div class="col-md-4 mb-4">
-//             <div class="card h-100 border-0 shadow-sm hover-scale" style="border-radius: 15px;">
-//                 <img src="${article.image || '../assets/img/default-news.jpg'}" 
-//                      class="card-img-top" 
-//                      style="height: 180px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
-//                 <div class="card-body">
-//                     <h6 class="fw-bold text-navy">${article.title}</h6>
-//                     <p class="small text-muted text-truncate-3">${article.description}</p>
-//                     <a href="${article.url}" target="_blank" class="btn btn-link p-0 text-orange fw-bold">Read More</a>
-//                 </div>
-//             </div>
-//         </div>
-//     `).join('');
-
-//     newsContainer.innerHTML = html;
-// }
-
-
-// fetchNews();
-
-
-// setInterval(fetchNews, 3600000);
+async function getGoldNews() {
+    let cashed = JSON.parse(localStorage.getItem("goldNews"));
+    let twoHours = 2 * 60 * 60 * 1000;
+    if(cashed && (Date.now() - cashed.time < twoHours)){
+        return cashed.data;
+    }
+    let response = await fetch(url);
+    let data = await response.json();
+    localStorage.setItem("goldNews",JSON.stringify({
+        data:data,
+        time:Date.now()
+    }));
+    return data;
+}
+function displayNews(array){
+    newsContainer.innerHTML="";
+    array.forEach(news=>{
+        let col = document.createElement("div");
+        col.classList.add("col-12", "col-md-6", "col-lg-4", "mb-4",);
+        col.innerHTML =` <div class="news-card">
+         <img src="${news.image }" alt="news image"> 
+         <div class="news-card-body"> 
+         <h5 class="news-card-title">${news.title}</h5> 
+         <p class="news-card-desc">${news.description.slice(0, 100)}...</p>
+          <a href="${news.url}" target="_blank" class="btn btn-warning btn-sm mt-2">Read More</a> </div>
+           </div>` ;
+           newsContainer.appendChild(col);
+    })
+}
+window.addEventListener("DOMContentLoaded", async () => {
+     let news = await getGoldNews(); 
+     displayNews(news.articles || news)});
