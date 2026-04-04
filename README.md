@@ -1,8 +1,13 @@
-# ⬡ Gold Track
+# Gold Track - Team 5
 
 > A real-time gold price tracker and personal gold asset manager built with vanilla JavaScript, HTML, and CSS.
 
 ---
+Name 	        Role
+Saeed Albattah	Product Owner
+Laila Harb	    Scrum Master
+Yasmeen Saleh	Programmer
+	
 
 ## 📌 Overview
 
@@ -140,7 +145,7 @@ When you add a gold asset, the app calculates:
 | `/pages/assets.html` | Manage personal gold assets (login required) |
 
 ---
-
+##Figma link :https://www.figma.com/design/Q66E8dwm2krf2j7zETYIXV/Untitled?node-id=0-1&t=k8vEum6lIcWbgAkC-1
 ## 📄 License
 
 This project was built for educational purposes. Feel free to use and modify it.
