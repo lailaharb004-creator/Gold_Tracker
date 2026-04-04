@@ -36,7 +36,7 @@ let typesSelect=document.querySelector(".type-select");
 
 let  categoriesArray=
 {
-    Jwellery:["Ring", "Bracelet", "Earrings", "Pendant"],
+    Jewelry:["Ring", "Bracelet", "Earrings", "Pendant"],
     Bars:    ["1 kg Bar", "100 g Bar", "Bullion Bar"],
     Coins:   ["Bullion Coin", "Commemorative Coin", "Collector Coin"] 
 };
@@ -317,4 +317,26 @@ function deleteAsset(id) {
     });
 }
 
+function filterAssets() {
+    let query = document.querySelector(".category-search").value.toLowerCase();
+    let selectedType = document.querySelector(".type-search").value;
 
+    let currentUserId = sessionStorage.getItem("userId");
+    let allAssets = JSON.parse(localStorage.getItem("Users Assets")) || [];
+
+    let filtered = allAssets.filter(asset => {
+        let isSameUser = asset.userId == currentUserId;
+
+        let matchesSearch =
+            asset.category.toLowerCase().includes(query) ||
+            asset.type.toLowerCase().includes(query) ||
+            asset.karat.toString().toLowerCase().includes(query);
+
+        let matchesType = selectedType === "All" || asset.type.trim().toLowerCase() === selectedType.trim().toLowerCase();
+
+        return isSameUser && matchesSearch && matchesType;
+    });
+
+    cardsContainer.innerHTML = "";
+    filtered.forEach(asset => addcard(asset));
+}
