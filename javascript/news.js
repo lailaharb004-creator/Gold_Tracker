@@ -1,4 +1,6 @@
  let url = "https://gnews.io/api/v4/search?q=XAU&apikey=27cce719ffb889b71fa73a0217674462";
+ let lodaingDiv = document.getElementById("loading");
+
 
 const newsContainer = document.getElementById("news-container");
 
@@ -16,8 +18,15 @@ async function getGoldNews() {
     }));
     return data;
 }
+lodaingDiv.innerHTML = `
+    <div class="d-flex justify-content-center w-100">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>`;
 function displayNews(array){
     newsContainer.innerHTML="";
+    lodaingDiv.textContent=""
     array.forEach(news=>{
         let col = document.createElement("div");
         col.classList.add("col-12", "col-md-6", "col-lg-4", "mb-4",);

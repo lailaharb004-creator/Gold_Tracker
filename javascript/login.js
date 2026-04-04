@@ -41,6 +41,7 @@
             },
           });
           sessionStorage.setItem("isActive", true);
+          sessionStorage.setItem("userId",userFound.id);
         }
       }
       form.addEventListener("submit", function (e) {
