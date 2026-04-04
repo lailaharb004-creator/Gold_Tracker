@@ -37,7 +37,7 @@
             timer: 2000,
             showConfirmButton: false,
             willClose: () => {
-              window.location.href = "assets.html";
+              window.location.href = "/index.html";
             },
           });
           sessionStorage.setItem("isActive", true);

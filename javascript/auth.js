@@ -10,6 +10,15 @@ function isLogin(){
         }
       }
           function logOut(){
-       sessionStorage.removeItem("isActive");
-       window.location.href="./index.html"
+       sessionStorage.clear();
+     
+    Swal.fire({
+        title: "Logged Out",
+        text: "See you soon! 👋",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        window.location.href = "index.html";
+    });
       }

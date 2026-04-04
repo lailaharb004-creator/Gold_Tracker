@@ -235,14 +235,29 @@ button.addEventListener("click", function (e) {
       timer: 2000,
       showConfirmButton: false,
       willClose: () => {
-        window.location.href = "pages/login.html";
+        window.location.href = "/pages/login.html";
       },
     });
   } 
 });
 
 const myAssets = document.getElementById("assets");
+const loginSignupGroup = document.getElementById("btn-log-sing");
+const navContainer = document.querySelector(".navbar-collapse"); 
 
-if(!isLogin()){
-    myAssets.style.display="none"
+if (!isLogin()) {
+    myAssets.style.display = "none";
+} else {
+    loginSignupGroup.style.display = "none";
+
+    const logoutBtnHTML = `
+        <div id="btn-logout" class="d-flex align-items-center gap-2">
+             <a href="#" class="btn btn-register d-flex align-items-center gap-2" onclick="logOut()">
+                <i class="fa-solid fa-right-from-bracket fs-4" ></i> Log Out
+             </a>
+        </div>`;
+
+    navContainer.insertAdjacentHTML("beforeend", logoutBtnHTML);
 }
+
+
