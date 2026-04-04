@@ -7,7 +7,7 @@ const newsContainer = document.getElementById("news-container");
 async function getGoldNews() {
     let cashed = JSON.parse(localStorage.getItem("goldNews"));
     let twoHours = 2 * 60 * 60 * 1000;
-    if(cashed && (Date.now() - cashed.time < twoHours)){
+    if(cashed && (Math.abs(Date.now() - cashed.time) < twoHours)){
         return cashed.data;
     }
     let response = await fetch(url);
