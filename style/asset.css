@@ -86,7 +86,8 @@ video{
 .assets-form {
    
     top: 20px;
-    
+     position: sticky;
+  
 }
 .glass-card { 
  background: rgba(255, 255, 255, 0.9) !important; 
@@ -95,7 +96,7 @@ video{
     border: 1px solid rgba(243, 198, 35, 0.3) !important; 
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    /* top: 20px; */
+  
 }
    .glass-card:hover {
     transform: translateY(-5px) !important;
@@ -110,6 +111,7 @@ video{
     margin-bottom: 25px;
     display: flex;
     align-items: center;
+   
 }
 
 .form-title i {

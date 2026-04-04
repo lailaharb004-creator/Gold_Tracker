@@ -15,7 +15,6 @@ let categoriesArray = {
     Coins: ["Bullion Coin", "Commemorative Coin", "Collector Coin"]
 };
 
-// تهيئة القائمة المنسدلة للفئات
 categoriesSelect.innerHTML = '<option selected disabled>choose category</option>';
 
 typesSelect.addEventListener("change", function (e) {
@@ -26,10 +25,11 @@ typesSelect.addEventListener("change", function (e) {
         categoriesArray[selectedType].forEach(category => {
             let option = document.createElement("option");
             option.textContent = category;
-            option.value = category; // تأكد من إضافة القيمة
+            option.value = category; 
             categoriesSelect.appendChild(option);
         });
     }
+   
 });
 
 let submitBtn = document.querySelector(".submit-btn");
@@ -45,7 +45,6 @@ let cardsContainer = document.querySelector(".cards");
 
 let assetsStorage = [];
 
-// دالة ضغط الصور
 function compressImage(file, maxWidth = 400, quality = 0.7) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -76,7 +75,6 @@ function compressImage(file, maxWidth = 400, quality = 0.7) {
     });
 }
 
-// جلب سعر الذهب من API
 async function getGoldPricePerGram() {
     try {
         let response = await fetch("https://api.gold-api.com/price/XAU");
@@ -92,7 +90,7 @@ async function getGoldPricePerGram() {
         }
     } catch (err) {
         console.error("Error fetching gold price:", err);
-        return 75; // سعر تقريبي في حال فشل الـ API
+        return 75; 
     }
 }
 
@@ -104,13 +102,11 @@ assetsForm.addEventListener("submit", async function (e) {
     if (imageUpload.files.length > 0) {
         imageFile = await compressImage(imageUpload.files[0], 400, 0.6);
     } else {
-        // الخروج من مجلد pages للوصول لـ assets
         imageFile = "../assets/images/Gold.png";
     }
 
     let price24K = await getGoldPricePerGram();
 
-    // الحسابات الرياضية
     let purchaseValue = parseFloat(weightInput.value) * parseFloat(gramPrice.value);
     let currentPricePerGram = price24K * (parseInt(karatSelect.value) / 24);
     let currentValue = parseFloat(weightInput.value) * currentPricePerGram;
@@ -151,7 +147,6 @@ assetsForm.addEventListener("submit", async function (e) {
     categoriesSelect.innerHTML = '<option selected disabled>choose category</option>';
 });
 
-// دالة إضافة الكارد للواجهة
 function addcard(asset) {
     let profitColor = asset.profitOrLoss >= 0 ? 'text-success' : 'text-danger';
     let sign = asset.profitOrLoss >= 0 ? '+' : '';
@@ -194,7 +189,6 @@ function addcard(asset) {
     cardsContainer.insertAdjacentHTML("afterbegin", cardHTML);
 }
 
-// تحميل البيانات عند فتح الصفحة
 window.addEventListener("DOMContentLoaded", () => {
     const currentUserId = sessionStorage.getItem("userId");
     let allAssets = JSON.parse(localStorage.getItem("Users Assets")) || [];
@@ -202,7 +196,6 @@ window.addEventListener("DOMContentLoaded", () => {
     userSpecificAssets.forEach(asset => addcard(asset));
 });
 
-// دالة الحذف
 function deleteAsset(id) {
     Swal.fire({
         title: 'Are you sure?',
