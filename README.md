@@ -3,7 +3,7 @@
 > A real-time gold price tracker and personal gold asset manager built with vanilla JavaScript, HTML, and CSS.
 
 ---
-Name 	        Role
+
 Saeed Albattah	Product Owner
 Laila Harb	    Scrum Master
 Yasmeen Saleh	Programmer
