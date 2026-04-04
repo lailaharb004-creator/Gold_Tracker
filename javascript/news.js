@@ -8,10 +8,12 @@ async function getGoldNews() {
     let cashed = JSON.parse(localStorage.getItem("goldNews"));
     let twoHours = 2 * 60 * 60 * 1000;
     if(cashed && (Math.abs(Date.now() - cashed.time) < twoHours)){
+        console.log("Using Cache");
         return cashed.data;
     }
     let response = await fetch(url);
     let data = await response.json();
+    console.log("Fetching from API");
     localStorage.setItem("goldNews",JSON.stringify({
         data:data,
         time:Date.now()
@@ -34,7 +36,7 @@ function displayNews(array){
          <img src="${news.image }" alt="news image"> 
          <div class="news-card-body"> 
          <h5 class="news-card-title">${news.title}</h5> 
-         <p class="news-card-desc">${news.description.slice(0, 100)}...</p>
+         <p class="news-card-desc">${news.description ? news.description.slice(0, 100) : "No description available"}......</p>
           <a href="${news.url}" target="_blank" class="btn btn-warning btn-sm mt-2">Read More</a> </div>
            </div>` ;
            newsContainer.appendChild(col);
