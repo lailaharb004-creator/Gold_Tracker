@@ -1,88 +1,51 @@
 /*
-
-
-category-search → search input
-type-search → select input
-assets-form → form container
-image-upload → file input
-type-select → select input for type
-category-select → select input for category
-karat-select → select input for karat
-weight-input → input for weight
-price-input → input for purchase price
-price-date → input for date
-submit-btn → submit button
-gram-price-input → gram input  
-currency-select → currency
-cards →cards container
-
-1--- categories select fill ^^
-2--- prevent submition if any field in the form not filled ^^
-3-- image default ^^
-4-- stor in localstorage  ^^
-5-- calculations ^^
- --- purchase value --- purchaseValue = weight × purchasePricePerGram 
- --- current gold price --- currentPricePerGram = price24K(from API) × (karat (from form)/ 24)
- --- current value --- currentValue = weight × currentPricePerGram
- --- profit or loss --- profitOrLoss = currentValue - purchaseValue
-
-
-
-
+  1--- categories select fill 
+  2--- prevent submition if any field in the form not filled 
+  3-- image default 
+  4-- stor in localstorage 
+  5-- calculations 
 */
-let categoriesSelect=document.querySelector(".category-select");
-let typesSelect=document.querySelector(".type-select");
 
+let categoriesSelect = document.querySelector(".category-select");
+let typesSelect = document.querySelector(".type-select");
 
-let  categoriesArray=
-{
-    Jewelry:["Ring", "Bracelet", "Earrings", "Pendant"],
-    Bars:    ["1 kg Bar", "100 g Bar", "Bullion Bar"],
-    Coins:   ["Bullion Coin", "Commemorative Coin", "Collector Coin"] 
+let categoriesArray = {
+    Jewelry: ["Ring", "Bracelet", "Earrings", "Pendant"],
+    Bars: ["1 kg Bar", "100 g Bar", "Bullion Bar"],
+    Coins: ["Bullion Coin", "Commemorative Coin", "Collector Coin"]
 };
 
-
-
-
-
-
+// تهيئة القائمة المنسدلة للفئات
 categoriesSelect.innerHTML = '<option selected disabled>choose category</option>';
-typesSelect.addEventListener("change",function(e){
 
-   
-        categoriesSelect.innerHTML=""
-       
-        categoriesArray[e.currentTarget.value].forEach (category =>{
-            let option=document.createElement("option");
-                option.textContent=category;
-                categoriesSelect.appendChild(option);
-
-         });
-           
+typesSelect.addEventListener("change", function (e) {
+    categoriesSelect.innerHTML = "";
+    let selectedType = e.currentTarget.value;
+    
+    if (categoriesArray[selectedType]) {
+        categoriesArray[selectedType].forEach(category => {
+            let option = document.createElement("option");
+            option.textContent = category;
+            option.value = category; // تأكد من إضافة القيمة
+            categoriesSelect.appendChild(option);
+        });
+    }
 });
 
+let submitBtn = document.querySelector(".submit-btn");
+let assetsForm = document.querySelector(".assets-form");
+let imageUpload = document.querySelector(".image-upload");
+let karatSelect = document.querySelector(".karat-select");
+let weightInput = document.querySelector(".weight-input");
+let priceInput = document.querySelector(".price-input");
+let priceDate = document.querySelector(".price-date");
+let gramPrice = document.querySelector(".gram-price-input");
+let currency = document.querySelector(".currency-select");
+let cardsContainer = document.querySelector(".cards");
 
+let assetsStorage = [];
 
-
-let submitBtn=document.querySelector(".submit-btn");
-let assetsForm=document.querySelector(".assets-form")
-let imageUpload=document.querySelector(".image-upload");
-let karatSelect=document.querySelector(".karat-select");
-let weightInput=document.querySelector(".weight-input");
-let priceInput=document.querySelector(".price-input");
-let priceDate=document.querySelector(".price-date");
-let gramPrice=document.querySelector(".gram-price-input");
-let currency=document.querySelector(".currency-select");
-let cardsContainer = document.querySelector(".cards"); 
-
-
-let imageFile;
-let assetsStorage=[];
-
-let purchaseValue ;
-let currentPricePerGram;
-let currentValue;
-let profitOrLoss;
+// دالة ضغط الصور
 function compressImage(file, maxWidth = 400, quality = 0.7) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -95,7 +58,6 @@ function compressImage(file, maxWidth = 400, quality = 0.7) {
                 let width = img.width;
                 let height = img.height;
 
-            
                 if (width > maxWidth) {
                     height = (maxWidth / width) * height;
                     width = maxWidth;
@@ -106,8 +68,6 @@ function compressImage(file, maxWidth = 400, quality = 0.7) {
 
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-
-    
                 const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
                 resolve(compressedBase64);
             };
@@ -116,138 +76,94 @@ function compressImage(file, maxWidth = 400, quality = 0.7) {
     });
 }
 
+// جلب سعر الذهب من API
 async function getGoldPricePerGram() {
     try {
-        
         let response = await fetch("https://api.gold-api.com/price/XAU");
         let data = await response.json();
         let priceUSDPerOunce = data.price;
+        const OUNCE_TO_GRAM = 31.1035;
 
-        if (currency.value==="JOD"){
-            const USD_TO_JOD = 0.71; 
-            let priceJODPerOunce = priceUSDPerOunce * USD_TO_JOD;
-
-         
-            const OUNCE_TO_GRAM = 31.1035;
-            let priceJODPerGram = priceJODPerOunce / OUNCE_TO_GRAM;
-
-            return priceJODPerGram;
+        if (currency.value === "JOD") {
+            const USD_TO_JOD = 0.71;
+            return (priceUSDPerOunce * USD_TO_JOD) / OUNCE_TO_GRAM;
+        } else {
+            return priceUSDPerOunce / OUNCE_TO_GRAM;
         }
-        else {
-            const OUNCE_TO_GRAM = 31.1035;
-            let priceUSDPerGram = priceUSDPerOunce / OUNCE_TO_GRAM;
-
-            return priceUSDPerGram; 
-        }
-
-
     } catch (err) {
         console.error("Error fetching gold price:", err);
-        return 100; 
+        return 75; // سعر تقريبي في حال فشل الـ API
     }
-
-}
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
 }
 
-
-
-assetsForm.addEventListener("submit",async function(e){
+// التعامل مع إرسال النموذج
+assetsForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-   
 
-   let imageFile;
-
+    let imageFile;
     if (imageUpload.files.length > 0) {
-        
         imageFile = await compressImage(imageUpload.files[0], 400, 0.6);
     } else {
-imageFile = "../assets/images/Gold.png";}
-    let price24K = await getGoldPricePerGram(); 
-    
+        // الخروج من مجلد pages للوصول لـ assets
+        imageFile = "../assets/images/Gold.png";
+    }
 
-    //--- purchase value --- purchaseValue = weight × purchasePricePerGram
-    purchaseValue=parseFloat(weightInput.value)*parseFloat(gramPrice.value);
-   //---current gold price --- currentPricePerGram = price24K(from API) × (karat (from form)/ 24)
-    currentPricePerGram=price24K*(parseInt(karatSelect.value)/24);
-   //--- current value --- currentValue = weight × currentPricePerGram
-   currentValue=parseFloat(weightInput.value)*currentPricePerGram;
-   // --- profit or loss --- profitOrLoss = currentValue - purchaseValue
-   profitOrLoss=currentValue-purchaseValue;
+    let price24K = await getGoldPricePerGram();
 
-   console.log(price24K);
-   console.log(purchaseValue);
-   console.log(currentPricePerGram);
-   console.log(currentValue);
-   console.log(profitOrLoss);
+    // الحسابات الرياضية
+    let purchaseValue = parseFloat(weightInput.value) * parseFloat(gramPrice.value);
+    let currentPricePerGram = price24K * (parseInt(karatSelect.value) / 24);
+    let currentValue = parseFloat(weightInput.value) * currentPricePerGram;
+    let profitOrLoss = currentValue - purchaseValue;
 
-   
-  
-    
-       
-   
-    assetsStorage=JSON.parse(localStorage.getItem("Users Assets"))||[];
-    assetsStorage.push({
+    let assetData = {
         id: Date.now(),
-        userId:sessionStorage.getItem("userId"),
-        img:imageFile ,
-        type:typesSelect.value,
-        category:categoriesSelect.value,
-        karat:karatSelect.value,
-        weight:weightInput.value,
-        price:priceInput.value,
-        date:priceDate.value,
+        userId: sessionStorage.getItem("userId"),
+        img: imageFile,
+        type: typesSelect.value,
+        category: categoriesSelect.value,
+        karat: karatSelect.value,
+        weight: weightInput.value,
+        price: priceInput.value,
+        date: priceDate.value,
         currency: currency.value,
         purchaseValue,
         currentValue,
         profitOrLoss
+    };
 
-    });
-    addcard(assetsStorage[assetsStorage.length-1]);
-    localStorage.setItem("Users Assets",JSON.stringify(assetsStorage));
+    assetsStorage = JSON.parse(localStorage.getItem("Users Assets")) || [];
+    assetsStorage.push(assetData);
+    localStorage.setItem("Users Assets", JSON.stringify(assetsStorage));
 
+    addcard(assetData);
 
-   
-   
-        Swal.fire({
+    Swal.fire({
         title: "Asset Added!",
         text: "Your gold asset has been saved successfully.",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
-        background: '#fff',
-        iconColor: '#f3c623', 
+        iconColor: '#f3c623',
     });
-       
-   assetsForm.reset();
-   categoriesSelect.innerHTML="";
-   categoriesSelect.innerHTML = '<option selected disabled>choose category</option>';
-   
+
+    assetsForm.reset();
+    categoriesSelect.innerHTML = '<option selected disabled>choose category</option>';
 });
 
-
-
+// دالة إضافة الكارد للواجهة
 function addcard(asset) {
     let profitColor = asset.profitOrLoss >= 0 ? 'text-success' : 'text-danger';
     let sign = asset.profitOrLoss >= 0 ? '+' : '';
     let percentage = (asset.profitOrLoss / asset.purchaseValue) * 100;
-    
-   
 
-    // HTML للكارد
-   const cardHTML = `
+    const cardHTML = `
         <div class="col-12 col-sm-6 col-xxl-4">
             <div class="glass-card overflow-hidden h-100 shadow-sm" style="border-radius: 15px; border: 1px solid #ddd; background: white;">
                 <img src="${asset.img}" class="asset-img" style="width: 100%; height: 200px; object-fit: cover;">
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-warning text-dark">${asset.karat}</span>
+                        <span class="badge bg-warning text-dark">${asset.karat}K</span>
                     </div>
                     <h5 class="fw-bold">${asset.category}</h5>
                     <p class="text-muted small mb-3">${asset.type} • ${asset.weight}g</p>
@@ -275,48 +191,39 @@ function addcard(asset) {
             </div>
         </div>
     `;
-cardsContainer.insertAdjacentHTML("afterbegin", cardHTML);
-assetsForm.reset();
+    cardsContainer.insertAdjacentHTML("afterbegin", cardHTML);
 }
+
+// تحميل البيانات عند فتح الصفحة
 window.addEventListener("DOMContentLoaded", () => {
- const currentUserId = sessionStorage.getItem("userId");
-
+    const currentUserId = sessionStorage.getItem("userId");
     let allAssets = JSON.parse(localStorage.getItem("Users Assets")) || [];
-
     let userSpecificAssets = allAssets.filter(asset => asset.userId == currentUserId);
     userSpecificAssets.forEach(asset => addcard(asset));
 });
+
+// دالة الحذف
 function deleteAsset(id) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#f3c623', 
+        confirmButtonColor: '#f3c623',
         cancelButtonColor: '#333',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel',
-       
+        confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
             let assets = JSON.parse(localStorage.getItem("Users Assets")) || [];
             assets = assets.filter(asset => asset.id !== id);
             localStorage.setItem("Users Assets", JSON.stringify(assets));
-
-            Swal.fire({
-                title: 'Deleted!',
-                text: 'Your asset has been removed.',
-                icon: 'success',
-                confirmButtonColor: '#f3c623'
-            }).then(() => {
-                location.reload(); 
-            });
+            location.reload();
         }
     });
 }
 
 function filterAssets() {
-    let query = document.querySelector(".category-search").value.toLowerCase();
+    let query = document.querySelector(".category-search").value.toLowerCase().trim();
     let selectedType = document.querySelector(".type-search").value;
 
     let currentUserId = sessionStorage.getItem("userId");
@@ -330,7 +237,8 @@ function filterAssets() {
             asset.type.toLowerCase().includes(query) ||
             asset.karat.toString().toLowerCase().includes(query);
 
-        let matchesType = selectedType === "All" || asset.type.trim().toLowerCase() === selectedType.trim().toLowerCase();
+        let matchesType = (selectedType === "All" || selectedType === "") || 
+                          asset.type.trim().toLowerCase() === selectedType.trim().toLowerCase();
 
         return isSameUser && matchesSearch && matchesType;
     });
@@ -338,3 +246,6 @@ function filterAssets() {
     cardsContainer.innerHTML = "";
     filtered.forEach(asset => addcard(asset));
 }
+
+document.querySelector(".category-search").addEventListener("input", filterAssets);
+document.querySelector(".type-search").addEventListener("change", filterAssets);
