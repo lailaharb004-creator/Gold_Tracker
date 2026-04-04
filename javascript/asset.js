@@ -168,9 +168,7 @@ assetsForm.addEventListener("submit",async function(e){
         
         imageFile = await compressImage(imageUpload.files[0], 400, 0.6);
     } else {
-        imageFile = "Gold.png"; 
-    }
-
+imageFile = "../assets/images/Gold.png";}
     let price24K = await getGoldPricePerGram(); 
     
 
