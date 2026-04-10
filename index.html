@@ -93,6 +93,11 @@
           <span class="ticker-value" id="tick-english">--</span>
           <span class="ticker-sep">|</span>
         </div>
+        <div class="ticker-item">
+            <span class="ticker-label">Gold Bar 10g</span>
+            <span class="ticker-value" id="tick-bar">--</span>
+            <span class="ticker-sep">|</span>
+        </div>
       </div>
     </div>
 
@@ -105,10 +110,10 @@
         <h1 class="hero-title">
           Track <span>gold</span> prices<br />professionally
         </h1>
-        <p class="hero-desc">
+        <!-- <p class="hero-desc">
           Real-time prices from trusted sources, with the ability to manage your
           personal gold and calculate profit and loss instantly.
-        </p>
+        </p> -->
         <div
           style="
             display: flex;
@@ -226,13 +231,39 @@
               <div class="small text-muted">Weight: 8.00g | 22K</div>
             </div>
           </div>
+          <div class="col-12 col-md-4">
+              <div class="p-3 price-item rounded hover-scale border border-warning shadow-sm h-100">
+                  <div class="small fw-bold text-uppercase">Gold Bar (10g)</div>
+                  <div class="fs-3 fw-bold" id="bar-price">--</div>
+                  <div id="ind-bar"></div>
+                  <div class="small text-muted">Weight: 10g | 24K</div>
+              </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="chart-container">
-      <div style="position: relative; height: 280px">
-        <canvas id="goldChart"></canvas>
+      <div style="border: 1px solid rgba(243,198,35,0.25); border-radius: 16px; background: radial-gradient(circle at center, #164069 0%, #10375c 70%, #051626 100%); padding: 1.5rem 2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <div style="color:#f8fafc; font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700;">XAU/USD — Price History</div>
+            <div style="color:rgba(248,250,252,0.45); font-size:0.78rem; margin-top:2px;">Live · Updated every 5 seconds</div>
+          </div>
+          <div class="chart-filter-bar" style="margin-bottom:0;">
+            <button class="chart-btn active" onclick="setChartPeriod('live')">Live</button>
+            <button class="chart-btn" onclick="setChartPeriod('1D')">1D</button>
+            <button class="chart-btn" onclick="setChartPeriod('1W')">1W</button>
+            <button class="chart-btn" onclick="setChartPeriod('1M')">1M</button>
+          </div>
+        </div>
+        <div class="chart-loading" id="chart-loading">
+          <div class="chart-spinner"></div>
+          <span>Loading historical data…</span>
+        </div>
+        <div style="position: relative; height: 300px;">
+          <canvas id="goldChart"></canvas>
+        </div>
       </div>
     </div>
     <div class="container my-5" id="news">

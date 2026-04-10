@@ -215,6 +215,8 @@ a   { text-decoration: none; }
   padding: 4rem 0 3rem;
   text-align: center;
   position: relative;
+  /* Force all text inside hero to be light — overrides body's dark color */
+  color: #ffffff;
 }
 
 .hero::before {
@@ -225,7 +227,7 @@ a   { text-decoration: none; }
   transform: translateX(-50%);
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(243,198,35,0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: -1;
 }
@@ -235,8 +237,13 @@ a   { text-decoration: none; }
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--yellow-accent);
+  color: var(--yellow-accent) !important;
   margin-bottom: 1rem;
+  display: inline-block;
+  background: rgba(243, 198, 35, 0.12);
+  border: 1px solid rgba(243, 198, 35, 0.35);
+  border-radius: 999px;
+  padding: 5px 18px;
 }
 
 .hero-title {
@@ -244,17 +251,38 @@ a   { text-decoration: none; }
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--text-dark);
+  color: #ffffff !important;
   margin-bottom: 1.25rem;
+  text-shadow:
+    0 0 60px rgba(243, 198, 35, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.hero-title span { color: var(--yellow-accent); }
+.hero-title span {
+  color: var(--yellow-accent) !important;
+  text-shadow: 0 0 35px rgba(243, 198, 35, 0.55);
+}
 
 .hero-desc {
-  font-size: 1rem;
-  color: #4a5568;
-  max-width: 480px;
+  font-size: 1.05rem;
+  color: rgba(220, 230, 255, 0.80) !important;
+  max-width: 500px;
   margin: 0 auto 2rem;
+  line-height: 1.75;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* Bottom gold divider line */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(243,198,35,0.5), transparent);
+  pointer-events: none;
 }
 
 /* ══════════════════════════════════════════
@@ -332,16 +360,16 @@ a   { text-decoration: none; }
 ══════════════════════════════════════════ */
 .chart-container {
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 1.5rem auto;
   padding: 0 1rem;
 }
 
 .chart-card {
-  background: var(--bg-light);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: radial-gradient(circle at center, #164069 0%, var(--navy-deep) 70%, #051626 100%);
+  border: 1px solid rgba(243, 198, 35, 0.25);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
 }
 
 .chart-header {
@@ -355,26 +383,58 @@ a   { text-decoration: none; }
 .chart-currency-label { color: var(--yellow-accent); font-size: 0.9rem; }
 .chart-filters        { display: flex; gap: 6px; }
 
+/* ── Chart period filter buttons ── */
+.chart-filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
 .chart-btn {
   background: transparent;
-  border: 1px solid var(--border-light);
-  color: #64748b;
+  border: 1px solid rgba(243, 198, 35, 0.3);
+  color: rgba(248, 250, 252, 0.55);
   font-size: 0.78rem;
   font-weight: 600;
-  padding: 4px 14px;
-  border-radius: 5px;
+  padding: 5px 16px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s;
+  letter-spacing: 0.04em;
 }
 
 .chart-btn.active,
 .chart-btn:hover {
-  background: var(--gold-light);
+  background: rgba(243, 198, 35, 0.15);
   border-color: var(--yellow-accent);
-  color: var(--orange-main);
+  color: var(--yellow-accent);
 }
 
-.chart-wrapper { position: relative; height: 260px; }
+/* Loading shimmer for chart */
+.chart-loading {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  color: rgba(248,250,252,0.45);
+  font-size: 0.82rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart-loading.visible { display: flex; }
+
+.chart-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(243,198,35,0.2);
+  border-top-color: var(--yellow-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.chart-wrapper { position: relative; height: 300px; }
 
 /* ══════════════════════════════════════════
    FOOTER

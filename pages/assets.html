@@ -49,13 +49,14 @@
             type="search"
             class="form-control category-search"
             placeholder="Search by category"
+            onkeyup="filterAssets()"
           />
-          <select class="form-select type-search">
-            <option>All Types</option>
-            <option>Jewelry</option>
-            <option>Bars</option>
-            <option>Coins</option>
-          </select>
+          <select class="form-select type-search" onchange="filterAssets()">
+                <option value="All">All Types</option>
+                <option value="Jewelry">Jewelry</option>
+                <option value="Bars">Bars</option>
+                <option value="Coins">Coins</option>
+         </select>
         </div>
       </div>
     </header>
@@ -100,12 +101,11 @@
               <label class="form-label">Karat</label>
               <div class="input-group mb-3">
                 <span class="input-group-text"
-                  ><i class="bi bi-award"></i
-                ></span>
+                  ><i class="bi bi-award"></i></span>
                 <select class="form-select karat-select gold-input">
-                  <option selected>24k</option>
-                  <option>21k</option>
-                  <option>18k</option>
+                  <option selected  value="24">24k</option>
+                  <option  value="21">21k</option>
+                  <option  value="18">18k</option>
                 </select>
               </div>
             </div>
